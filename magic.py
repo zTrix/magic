@@ -22,6 +22,18 @@ def register(*args, **kwargs):
             registry[wrapper.func_name + '.' + k] = wrapper
     return decorator
 
+@register('open')
+def osopen(number, key):
+    flags = 'O_APPEND O_ASYNC O_CREAT O_DIRECTORY O_DSYNC O_EXCL O_EXLOCK O_NDELAY O_NOCTTY O_NOFOLLOW O_NONBLOCK O_RDONLY O_RDWR O_SHLOCK O_SYNC O_TRUNC O_WRONLY'.split(' ')
+    ret = []
+    for f in flags:
+        try:
+            if getattr(os, f) & number:
+                ret.append(f)
+        except:
+            pass
+    return ret
+
 @register('iflags', 'oflags', 'cflags', 'lflags')
 def termios(number, key):
     flags = {
@@ -71,6 +83,8 @@ usage:
     $ magic.py number [keyword | [keyword] ...]
 
 examples:
+    $ magic.py 11 open
+    $ magic.py 15 signal
     $ magic.py 10240 iflags
 """
     

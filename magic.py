@@ -159,14 +159,16 @@ def main():
             usage()
             sys.exit(11)
     rs = magic(number, sys.argv[2:])
+    if not rs:
+        print '0ops, magic number not found :('
+        return 0
     for k in rs:
         w = rs[k]
         sys.stdout.write(colored(k, 'yellow') + '\r\n')
         sys.stdout.write('    ' + colored(isinstance(w, list) and ' | '.join(w) or w, 'cyan') + '\r\n')
         sys.stdout.flush()
-    if len(rs) == 0:
-        print '0ops, magic number not found :('
+    return 0
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
 

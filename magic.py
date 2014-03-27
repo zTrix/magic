@@ -2,7 +2,8 @@
 #-*- coding:utf-8 -*-
 
 import os, sys, getopt
-import termios as libtermios
+import termios as py_termios
+import signal as py_signal
 try:
     from termcolor import colored
 except:
@@ -11,7 +12,7 @@ except:
 
 registry = {}
 
-def register_bitor(*args, **kwargs):
+def register(*args, **kwargs):
     def decorator(func):
         def wrapper(*fargs, **fkwargs):
             return func(*fargs, **fkwargs)
@@ -21,7 +22,7 @@ def register_bitor(*args, **kwargs):
             registry[wrapper.func_name + '.' + k] = wrapper
     return decorator
 
-@register_bitor('iflags', 'oflags', 'cflags', 'lflags')
+@register('iflags', 'oflags', 'cflags', 'lflags')
 def termios(number, key):
     flags = {
         'iflags': 'IGNBRK BRKINT IGNPAR PARMRK INPCK ISTRIP INLCR IGNCR ICRNL IUCLC IXON IXANY IXOFF IMAXBEL IUTF8'.split(' '),
@@ -33,11 +34,22 @@ def termios(number, key):
     ret = []
     for opt in flags[key]:
         try:
-            if getattr(libtermios, opt) & number:
+            if getattr(py_termios, opt) & number:
                 ret.append(opt)
-        except BaseException, ex:
+        except:
             pass
     return ret
+
+@register('signal')
+def signal(number, key):
+    signals = 'NSIG SIGABRT SIGALRM SIGBUS SIGCHLD SIGCONT SIGEMT SIGFPE SIGHUP SIGILL SIGINFO SIGINT SIGIO SIGIOT SIGKILL SIGPIPE SIGPROF SIGQUIT SIGSEGV SIGSTOP SIGSYS SIGTERM SIGTRAP SIGTSTP SIGTTIN SIGTTOU SIGURG SIGUSR1 SIGUSR2 SIGVTALRM SIGWINCH SIGXCPU SIGXFSZ SIG_DFL SIG_IGN'.split(' ')
+    for s in signals:
+        try:
+            if getattr(py_signal, s) == number:
+                return s
+        except:
+            pass
+    return None
 
 def FIND(key, hint): return key.lower().find(hint.lower()) > -1
 
@@ -79,12 +91,14 @@ def main():
         except:
             usage()
             sys.exit(11)
-    rs = magic(int(sys.argv[1]), sys.argv[2:])
+    rs = magic(number, sys.argv[2:])
     for k in rs:
         w = rs[k]
         sys.stdout.write(colored(k, 'yellow') + '\r\n')
         sys.stdout.write('    ' + colored(isinstance(w, list) and ' | '.join(w) or w, 'cyan') + '\r\n')
         sys.stdout.flush()
+    if len(rs) == 0:
+        print '0ops, magic number not found :('
 
 if __name__ == '__main__':
     main()

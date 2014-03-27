@@ -45,6 +45,13 @@ py_magic = {
     }
 }
 
+magics = {
+    'ascii': {
+        'flags': [(0, 'nul'), (1, 'soh'), (2, 'stx'), (3, 'etx'), (4, 'eot'), (5, 'enq'), (6, 'ack'), (7, 'bel'), (8, 'bs'), (9, 'ht'), (10, 'nl'), (11, 'vt'), (12, 'np'), (13, 'carriage return'), (14, 'so'), (15, 'si'), (16, 'dle'), (17, 'dc1'), (18, 'dc2'), (19, 'dc3'), (20, 'dc4'), (21, 'nak'), (22, 'syn'), (23, 'etb'), (24, 'can'), (25, 'em'), (26, 'sub'), (27, 'esc'), (28, 'fs'), (29, 'gs'), (30, 'rs'), (31, 'us'), (32, 'space'), (127, 'delete')] + [(x, chr(x)) for x in range(33, 127)],
+        'type': 'equal'
+    }
+}
+
 registry = {}
 
 def register(*args, **kwargs):
@@ -103,6 +110,24 @@ def magic(number, hints, match = FIND):
                     visit(obj[k], path + '.' + k)
         
         visit(py_magic[module], module)
+
+    # magics
+
+    for key in magics:
+        if not match_all(key):
+            return
+        if magics[key]['type'] == 'equal':
+            for n, s in magics[key]['flags']:
+                if n == number:
+                    ret[key] = s
+        elif magics[key]['type'] == 'bitor':
+            bits = []
+            for n, s in magics[key]['flags']:
+                if n & number:
+                    bits.append(s)
+            if bits:
+                ret[key] = bits
+                
     return ret
 
 def usage():

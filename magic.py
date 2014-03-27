@@ -2,13 +2,48 @@
 #-*- coding:utf-8 -*-
 
 import os, sys, getopt
-import termios as py_termios
-import signal as py_signal
+import termios
+import signal
 try:
     from termcolor import colored
 except:
     def colored(text, color=None, on_color=None, attrs=None):
         return text
+
+py_magic = {
+    'os': {
+        'open': {
+            'flags': 'O_APPEND O_ASYNC O_CREAT O_DIRECTORY O_DSYNC O_EXCL O_EXLOCK O_NDELAY O_NOCTTY O_NOFOLLOW O_NONBLOCK O_RDONLY O_RDWR O_SHLOCK O_SYNC O_TRUNC O_WRONLY'.split(' '),
+            'type': 'bitor'
+        },
+        'seek': {
+            'flags': 'SEEK_SET SEEK_CUR SEEK_END'.split(' '),
+            'type': 'equal'
+        }
+    },
+    'termios': {
+        'iflags': {
+            'flags': 'IGNBRK BRKINT IGNPAR PARMRK INPCK ISTRIP INLCR IGNCR ICRNL IUCLC IXON IXANY IXOFF IMAXBEL IUTF8'.split(' '),
+            'type': 'bitor'
+        },
+        'oflags': {
+            'flags': 'OPOST OLCUC ONLCR OCRNL ONOCR ONLRET OFILL OFDEL NLDLY CRDLY TABDLY BSDLY VTDLY FFDLY'.split(' '),
+            'type': 'bitor',
+        },
+        'cflags': {
+            'flags': 'CBAUD CBAUDEX CSIZE CSTOPB CREAD PARENB PARODD HUPCL CLOCAL LOBLK CIBAUD CMSPAR CRTSCTS'.split(' '),
+            'type': 'bitor',
+        },
+        'lflags': {
+            'flags': 'ISIG ICANON XCASE ECHO ECHOE ECHOK ECHONL ECHOCTL ECHOPRT ECHOKE DEFECHO FLUSHO NOFLSH TOSTOP PENDIN IEXTEN'.split(' '),
+            'type': 'bitor',
+        }
+    },
+    'signal': {
+        'flags': 'NSIG SIGABRT SIGALRM SIGBUS SIGCHLD SIGCONT SIGEMT SIGFPE SIGHUP SIGILL SIGINFO SIGINT SIGIO SIGIOT SIGKILL SIGPIPE SIGPROF SIGQUIT SIGSEGV SIGSTOP SIGSYS SIGTERM SIGTRAP SIGTSTP SIGTTIN SIGTTOU SIGURG SIGUSR1 SIGUSR2 SIGVTALRM SIGWINCH SIGXCPU SIGXFSZ SIG_DFL SIG_IGN'.split(' '),
+        'type': 'equal'
+    }
+}
 
 registry = {}
 
@@ -25,70 +60,49 @@ def register(*args, **kwargs):
                 registry[wrapper.func_name + '.' + k] = wrapper
     return decorator
 
-@register()
-def open(number, key):
-    flags = 'O_APPEND O_ASYNC O_CREAT O_DIRECTORY O_DSYNC O_EXCL O_EXLOCK O_NDELAY O_NOCTTY O_NOFOLLOW O_NONBLOCK O_RDONLY O_RDWR O_SHLOCK O_SYNC O_TRUNC O_WRONLY'.split(' ')
-    ret = []
-    for f in flags:
-        try:
-            if getattr(os, f) & number:
-                ret.append(f)
-        except:
-            pass
-    return ret
-
-@register()
-def seek(number, key):
-    flags = 'SEEK_SET SEEK_CUR SEEK_END'.split(' ')
-    for f in flags:
-        try:
-            if getattr(os, f) == number:
-                return f
-        except:
-            pass
-    return None
-
-@register('iflags', 'oflags', 'cflags', 'lflags')
-def termios(number, key):
-    flags = {
-        'iflags': 'IGNBRK BRKINT IGNPAR PARMRK INPCK ISTRIP INLCR IGNCR ICRNL IUCLC IXON IXANY IXOFF IMAXBEL IUTF8'.split(' '),
-        'oflags': 'OPOST OLCUC ONLCR OCRNL ONOCR ONLRET OFILL OFDEL NLDLY CRDLY TABDLY BSDLY VTDLY FFDLY'.split(' '),
-        'cflags': 'CBAUD CBAUDEX CSIZE CSTOPB CREAD PARENB PARODD HUPCL CLOCAL LOBLK CIBAUD CMSPAR CRTSCTS'.split(' '),
-        'lflags': 'ISIG ICANON XCASE ECHO ECHOE ECHOK ECHONL ECHOCTL ECHOPRT ECHOKE DEFECHO FLUSHO NOFLSH TOSTOP PENDIN IEXTEN'.split(' '),
-    }
-    if key not in flags: return None
-    ret = []
-    for opt in flags[key]:
-        try:
-            if getattr(py_termios, opt) & number:
-                ret.append(opt)
-        except:
-            pass
-    return ret
-
-@register()
-def signal(number, key):
-    signals = 'NSIG SIGABRT SIGALRM SIGBUS SIGCHLD SIGCONT SIGEMT SIGFPE SIGHUP SIGILL SIGINFO SIGINT SIGIO SIGIOT SIGKILL SIGPIPE SIGPROF SIGQUIT SIGSEGV SIGSTOP SIGSYS SIGTERM SIGTRAP SIGTSTP SIGTTIN SIGTTOU SIGURG SIGUSR1 SIGUSR2 SIGVTALRM SIGWINCH SIGXCPU SIGXFSZ SIG_DFL SIG_IGN'.split(' ')
-    for s in signals:
-        try:
-            if getattr(py_signal, s) == number:
-                return s
-        except:
-            pass
-    return None
-
 def FIND(key, hint): return key.lower().find(hint.lower()) > -1
 
-def magic(number, hints, mode = FIND):
+def magic(number, hints, match = FIND):
     ret = {}
-    for keyword in registry:
+
+    def match_all(keyword):
+        if isinstance(hints, basestring):
+            return match(keyword, hints)
         for hint in hints:
-            if not mode(keyword, hint):
-                break
-        else:
-            rs = registry[keyword](number, keyword.find('.') > -1 and keyword.split('.', 1)[1] or keyword)
-            if rs:
-                ret[keyword] = rs
+            if not match(keyword, hint):
+                return False
+        return True
+        
+    # py magics
+    modules = {}
+    for module in py_magic:
+        if module not in modules:
+            modules[module] = __import__(module, globals())
+
+        def visit(obj, path):
+            if 'flags' in obj and 'type' in obj:
+                if not match_all(path): return
+                if obj['type'] == 'equal':
+                    for f in obj['flags']:
+                        try:
+                            if getattr(modules[module], f) == number:
+                                ret[path] = f
+                                break
+                        except: pass
+                elif obj['type'] == 'bitor':
+                    bits = []
+                    for f in obj['flags']:
+                        try:
+                            if getattr(modules[module], f) & number:
+                                bits.append(f)
+                        except: pass
+                    if bits:
+                        ret[path] = bits
+            else:
+                for k in obj:
+                    visit(obj[k], path + '.' + k)
+        
+        visit(py_magic[module], module)
     return ret
 
 def usage():

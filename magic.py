@@ -18,12 +18,15 @@ def register(*args, **kwargs):
             return func(*fargs, **fkwargs)
         wrapper.func_name = func.func_name
         wrapper.__doc__ == func.__doc__
-        for k in args:
-            registry[wrapper.func_name + '.' + k] = wrapper
+        if not args:
+            registry[wrapper.func_name] = wrapper
+        else:
+            for k in args:
+                registry[wrapper.func_name + '.' + k] = wrapper
     return decorator
 
-@register('open')
-def osopen(number, key):
+@register()
+def open(number, key):
     flags = 'O_APPEND O_ASYNC O_CREAT O_DIRECTORY O_DSYNC O_EXCL O_EXLOCK O_NDELAY O_NOCTTY O_NOFOLLOW O_NONBLOCK O_RDONLY O_RDWR O_SHLOCK O_SYNC O_TRUNC O_WRONLY'.split(' ')
     ret = []
     for f in flags:
@@ -33,6 +36,17 @@ def osopen(number, key):
         except:
             pass
     return ret
+
+@register()
+def seek(number, key):
+    flags = 'SEEK_SET SEEK_CUR SEEK_END'.split(' ')
+    for f in flags:
+        try:
+            if getattr(os, f) == number:
+                return f
+        except:
+            pass
+    return None
 
 @register('iflags', 'oflags', 'cflags', 'lflags')
 def termios(number, key):
@@ -52,7 +66,7 @@ def termios(number, key):
             pass
     return ret
 
-@register('signal')
+@register()
 def signal(number, key):
     signals = 'NSIG SIGABRT SIGALRM SIGBUS SIGCHLD SIGCONT SIGEMT SIGFPE SIGHUP SIGILL SIGINFO SIGINT SIGIO SIGIOT SIGKILL SIGPIPE SIGPROF SIGQUIT SIGSEGV SIGSTOP SIGSYS SIGTERM SIGTRAP SIGTSTP SIGTTIN SIGTTOU SIGURG SIGUSR1 SIGUSR2 SIGVTALRM SIGWINCH SIGXCPU SIGXFSZ SIG_DFL SIG_IGN'.split(' ')
     for s in signals:
@@ -72,7 +86,7 @@ def magic(number, hints, mode = FIND):
             if not mode(keyword, hint):
                 break
         else:
-            rs = registry[keyword](number, keyword.split('.', 1)[1])
+            rs = registry[keyword](number, keyword.find('.') > -1 and keyword.split('.', 1)[1] or keyword)
             if rs:
                 ret[keyword] = rs
     return ret

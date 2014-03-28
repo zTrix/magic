@@ -115,7 +115,7 @@ def magic(number, hints, match = FIND):
 
     for key in magics:
         if not match_all(key):
-            return
+            continue
         if magics[key]['type'] == 'equal':
             for n, s in magics[key]['flags']:
                 if n == number:

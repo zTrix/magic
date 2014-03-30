@@ -90,12 +90,14 @@ def magic(number, hints, match = FIND):
             if 'flags' in obj and 'type' in obj:
                 if not match_all(path): return
                 if obj['type'] == 'equal':
+                    bits = set()
                     for f in obj['flags']:
                         try:
                             if getattr(modules[module], f) == number:
-                                ret[path] = f
-                                break
+                                bits.add(f)
                         except: pass
+                    if bits:
+                        ret[path] = bits
                 elif obj['type'] == 'bitor':
                     bits = []
                     for f in obj['flags']:
@@ -104,6 +106,7 @@ def magic(number, hints, match = FIND):
                                 bits.append(f)
                         except: pass
                     if bits:
+                        bits.sort()
                         ret[path] = bits
             else:
                 for k in obj:
@@ -117,15 +120,19 @@ def magic(number, hints, match = FIND):
         if not match_all(key):
             continue
         if magics[key]['type'] == 'equal':
+            bits = set()
             for n, s in magics[key]['flags']:
                 if n == number:
-                    ret[key] = s
+                    bits.add(s)
+            if bits:
+                ret[key] = bits
         elif magics[key]['type'] == 'bitor':
             bits = []
             for n, s in magics[key]['flags']:
                 if n & number:
                     bits.append(s)
             if bits:
+                bits.sort()
                 ret[key] = bits
                 
     return ret
@@ -165,7 +172,7 @@ def main():
     for k in rs:
         w = rs[k]
         sys.stdout.write(colored(k, 'yellow') + '\r\n')
-        sys.stdout.write('    ' + colored(isinstance(w, list) and ' | '.join(w) or w, 'cyan') + '\r\n')
+        sys.stdout.write('    ' + colored(isinstance(w, list) and ' | '.join(w) or ', '.join(w), 'cyan') + '\r\n')
         sys.stdout.flush()
     return 0
 

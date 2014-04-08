@@ -66,6 +66,10 @@ magics = {
     'ascii': {
         'flags': [(0, 'nul'), (1, 'soh'), (2, 'stx'), (3, 'etx'), (4, 'eot'), (5, 'enq'), (6, 'ack'), (7, 'bel'), (8, 'bs'), (9, 'ht'), (10, 'nl'), (11, 'vt'), (12, 'np'), (13, 'carriage return'), (14, 'so'), (15, 'si'), (16, 'dle'), (17, 'dc1'), (18, 'dc2'), (19, 'dc3'), (20, 'dc4'), (21, 'nak'), (22, 'syn'), (23, 'etb'), (24, 'can'), (25, 'em'), (26, 'sub'), (27, 'esc'), (28, 'fs'), (29, 'gs'), (30, 'rs'), (31, 'us'), (32, 'space'), (127, 'delete')] + [(x, chr(x)) for x in range(33, 127)],
         'type': TYPE_EQUAL
+    },
+    'prctl': {
+        'flags': [(23, 'PR_CAPBSET_READ'),  (24, 'PR_CAPBSET_DROP'),  (36, 'PR_SET_CHILD_SUBREAPER'),  (37, 'PR_GET_CHILD_SUBREAPER'),  (4, 'PR_SET_DUMPABLE'),  (3, 'PR_GET_DUMPABLE'),  (20, 'PR_SET_ENDIAN'),  (19, 'PR_GET_ENDIAN'),  (10, 'PR_SET_FPEMU'),  (9, 'PR_GET_FPEMU'),  (12, 'PR_SET_FPEXC'),  (11, 'PR_GET_FPEXC'),  (8, 'PR_SET_KEEPCAPS'),  (7, 'PR_GET_KEEPCAPS'),  (15, 'PR_SET_NAME'),  (16, 'PR_GET_NAME'),  (38, 'PR_SET_NO_NEW_PRIVS'),  (39, 'PR_GET_NO_NEW_PRIVS'),  (1, 'PR_SET_PDEATHSIG'),  (2, 'PR_GET_PDEATHSIG'),  (1499557217, 'PR_SET_PTRACER'),  (22, 'PR_SET_SECCOMP'),  (21, 'PR_GET_SECCOMP'),  (28, 'PR_SET_SECUREBITS'),  (27, 'PR_GET_SECUREBITS'),  (40, 'PR_GET_TID_ADDRESS'),  (29, 'PR_SET_TIMERSLACK'),  (30, 'PR_GET_TIMERSLACK'),  (14, 'PR_SET_TIMING'),  (13, 'PR_GET_TIMING'),  (31, 'PR_TASK_PERF_EVENTS_DISABLE'),  (32, 'PR_TASK_PERF_EVENTS_ENABLE'),  (26, 'PR_SET_TSC'),  (25, 'PR_GET_TSC'),  (6, 'PR_SET_UNALIGN'),  (5, 'PR_GET_UNALIGN'),  (33, 'PR_MCE_KILL'),  (34, 'PR_MCE_KILL_GET'),  (35, 'PR_SET_MM')],
+        'type': TYPE_EQUAL
     }
 }
 
@@ -173,6 +177,12 @@ def main():
     if sys.argv[1].startswith('0x'):
         try:
             number = int(sys.argv[1], 16)
+        except:
+            usage()
+            sys.exit(10)
+    elif sys.argv[1].startswith('0b'):
+        try:
+            number = int(sys.argv[1], 2)
         except:
             usage()
             sys.exit(10)

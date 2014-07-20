@@ -98,7 +98,7 @@ def register(*args, **kwargs):
 
 def FIND(key, hint): return key.lower().find(hint.lower()) > -1
 
-def magic(number, hints, match = FIND):
+def magic(query, hints, match = FIND):
     ret = {}
 
     def match_all(keyword):
@@ -108,7 +108,32 @@ def magic(number, hints, match = FIND):
             if not match(keyword, hint):
                 return False
         return True
-        
+
+    name = None
+    number = None
+
+    if isinstance(query, basestring):
+        if query.startswith('0x'):
+            try:
+                number = int(query, 16)
+            except:
+                raise ValueError('bad magic number in hex')
+        elif query.startswith('0b'):
+            try:
+                number = int(sys.argv[1], 2)
+            except:
+                raise ValueError('bad magic number in bin')
+        else:
+            try:
+                number = int(query, 10)
+            except:
+                number = None
+                name = query
+    elif isinstance(query, (int, long)):
+        number = query
+    else:
+        raise ValueError('query should be type number or string')
+
     # py magics
     modules = {}
     for module in py_magic:
@@ -119,23 +144,31 @@ def magic(number, hints, match = FIND):
             if 'flags' in obj and 'type' in obj:
                 if not match_all(path): return
                 if obj['type'] == TYPE_EQUAL:
-                    bits = set()
+                    bits = {}
                     for f in obj['flags']:
                         try:
-                            if getattr(modules[module], f) == number:
-                                bits.add(f)
+                            value = getattr(modules[module], f)
+                            if name:
+                                if match(f, name):
+                                    bits[f] = value
+                            elif value == number:
+                                bits[f] = number
                         except: pass
                     if bits:
                         ret[path] = bits
                 elif obj['type'] == TYPE_BITOR:
-                    bits = []
+                    bits = {}
                     for f in obj['flags']:
                         try:
-                            if getattr(modules[module], f) & number:
-                                bits.append(f)
+                            value = getattr(modules[module], f)
+                            if name:
+                                if match(f, name):
+                                    bits[f] = value
+                            elif value & number:
+                                bits[f] = value
                         except: pass
                     if bits:
-                        bits.sort()
+                        # bits.sort()
                         ret[path] = bits
             else:
                 for k in obj:
@@ -149,19 +182,25 @@ def magic(number, hints, match = FIND):
         if not match_all(key):
             continue
         if magics[key]['type'] == TYPE_EQUAL:
-            bits = set()
+            bits = {}
             for n, s in magics[key]['flags']:
-                if n == number:
-                    bits.add(s)
+                if name:
+                    if match(s, name):
+                        bits[s] = n
+                elif n == number:
+                    bits[s] = n
             if bits:
                 ret[key] = bits
         elif magics[key]['type'] == TYPE_BITOR:
-            bits = []
+            bits = {}
             for n, s in magics[key]['flags']:
-                if n & number:
-                    bits.append(s)
+                if name:
+                    if match(s, name):
+                        bits[s] = n
+                elif n & number:
+                    bits[s] = n
             if bits:
-                bits.sort()
+                # bits.sort()
                 ret[key] = bits
                 
     return ret
@@ -169,12 +208,14 @@ def magic(number, hints, match = FIND):
 def usage():
     print """
 usage:
-    $ magic.py number [keyword | [keyword] ...]
+    $ magic.py (number|name) [keyword | [keyword] ...]
 
 examples:
     $ magic.py 11 open
     $ magic.py 15 signal
     $ magic.py 10240 iflags
+    $ magic.py SIGTERM signal
+    $ magic.py creat open
 """
     
 def main():
@@ -182,32 +223,18 @@ def main():
     if len(sys.argv) < 2:
         usage()
         sys.exit(0)
-    if sys.argv[1].startswith('0x'):
-        try:
-            number = int(sys.argv[1], 16)
-        except:
-            usage()
-            sys.exit(10)
-    elif sys.argv[1].startswith('0b'):
-        try:
-            number = int(sys.argv[1], 2)
-        except:
-            usage()
-            sys.exit(10)
-    else:
-        try:
-            number = int(sys.argv[1], 10)
-        except:
-            usage()
-            sys.exit(11)
-    rs = magic(number, sys.argv[2:])
+    try:
+        rs = magic(sys.argv[1], sys.argv[2:])
+    except BaseException, ex:
+        usage()
+        sys.exit(10)
     if not rs:
         print '0ops, magic number not found :('
         return 0
     for k in rs:
         w = rs[k]
         sys.stdout.write(colored(k, 'yellow') + '\r\n')
-        sys.stdout.write('    ' + colored(isinstance(w, list) and ' | '.join(w) or ', '.join(w), 'cyan') + '\r\n')
+        sys.stdout.write('    ' + colored(isinstance(w, (list, dict)) and ' | '.join(['%s = %d(0x%s)' % (k, w[k], format(w[k], 'x')) for k in w.keys()]) or ', '.join(w), 'cyan') + '\r\n')
         sys.stdout.flush()
     return 0
 

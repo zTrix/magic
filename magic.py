@@ -134,75 +134,48 @@ def magic(query, hints, match = FIND):
     else:
         raise ValueError('query should be type number or string')
 
+    def visit(obj, path):
+        if 'flags' in obj and 'type' in obj:
+            if not match_all(path): return
+            bits = {}
+            def get_one(f, value, tp):
+                if name:
+                    if match(f, name):
+                        bits[f] = value
+                elif tp == TYPE_EQUAL:
+                    if value == number:
+                        bits[f] = value
+                elif tp == TYPE_BITOR:
+                    if value & number:
+                        bits[f] = value
+
+            if isinstance(obj['flags'][0], basestring):
+                for f in obj['flags']:
+                    try:
+                        value = getattr(modules[module], f)
+                        get_one(f, value, obj['type'])
+                    except: pass
+            else:       # tupple
+                for value, f in obj['flags']:
+                    get_one(f, value)
+            if bits:
+                ret[path] = bits
+        else:
+            for k in obj:
+                visit(obj[k], path and path + '.' + k or k)
+        
     # py magics
     modules = {}
     for module in py_magic:
         if module not in modules:
             modules[module] = __import__(module, globals())
 
-        def visit(obj, path):
-            if 'flags' in obj and 'type' in obj:
-                if not match_all(path): return
-                if obj['type'] == TYPE_EQUAL:
-                    bits = {}
-                    for f in obj['flags']:
-                        try:
-                            value = getattr(modules[module], f)
-                            if name:
-                                if match(f, name):
-                                    bits[f] = value
-                            elif value == number:
-                                bits[f] = number
-                        except: pass
-                    if bits:
-                        ret[path] = bits
-                elif obj['type'] == TYPE_BITOR:
-                    bits = {}
-                    for f in obj['flags']:
-                        try:
-                            value = getattr(modules[module], f)
-                            if name:
-                                if match(f, name):
-                                    bits[f] = value
-                            elif value & number:
-                                bits[f] = value
-                        except: pass
-                    if bits:
-                        # bits.sort()
-                        ret[path] = bits
-            else:
-                for k in obj:
-                    visit(obj[k], path + '.' + k)
-        
         visit(py_magic[module], module)
 
     # magics
 
-    for key in magics:
-        if not match_all(key):
-            continue
-        if magics[key]['type'] == TYPE_EQUAL:
-            bits = {}
-            for n, s in magics[key]['flags']:
-                if name:
-                    if match(s, name):
-                        bits[s] = n
-                elif n == number:
-                    bits[s] = n
-            if bits:
-                ret[key] = bits
-        elif magics[key]['type'] == TYPE_BITOR:
-            bits = {}
-            for n, s in magics[key]['flags']:
-                if name:
-                    if match(s, name):
-                        bits[s] = n
-                elif n & number:
-                    bits[s] = n
-            if bits:
-                # bits.sort()
-                ret[key] = bits
-                
+    visit(magics, '')
+
     return ret
 
 def usage():

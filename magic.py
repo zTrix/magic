@@ -81,21 +81,6 @@ magics = {
     }
 }
 
-registry = {}
-
-def register(*args, **kwargs):
-    def decorator(func):
-        def wrapper(*fargs, **fkwargs):
-            return func(*fargs, **fkwargs)
-        wrapper.func_name = func.func_name
-        wrapper.__doc__ == func.__doc__
-        if not args:
-            registry[wrapper.func_name] = wrapper
-        else:
-            for k in args:
-                registry[wrapper.func_name + '.' + k] = wrapper
-    return decorator
-
 def FIND(key, hint): return key.lower().find(hint.lower()) > -1
 
 def magic(query, hints, match = FIND):
@@ -139,7 +124,7 @@ def magic(query, hints, match = FIND):
             if not match_all(path): return
             bits = {}
             def get_one(f, value, tp):
-                if name:
+                if name is not None:
                     if match(f, name):
                         bits[f] = value
                 elif tp == TYPE_EQUAL:
@@ -189,6 +174,8 @@ examples:
     $ magic.py 10240 iflags
     $ magic.py SIGTERM signal
     $ magic.py creat open
+    # list all consts in open
+    $ magic.py '' open
 """
     
 def main():

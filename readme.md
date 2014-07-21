@@ -3,9 +3,9 @@
 
 When you are [gnireenigne](http://en.wikipedia.org/wiki/Reverse_engineering) some binary file, have you ever wondered, WTF are those magic numbers?
 
-When you are browsing source code of a giant project, have you ever complained, what are the value of those magic constants?
+When you are browsing source code of a giant project, have you ever complained, what are the values of those magic constants?
 
-Here you are, [magic](https://github.com/zTrix/magic) Solves these issues for you.
+Here you are, [magic](https://github.com/zTrix/magic) SOLVES these issues for you, like magic.
 
 # Usage
 

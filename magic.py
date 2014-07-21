@@ -142,7 +142,7 @@ def magic(query, hints, match = FIND):
                     except: pass
             else:       # tupple
                 for value, f in obj['flags']:
-                    get_one(f, value)
+                    get_one(f, value, obj['type'])
             if bits:
                 ret[path] = bits
         else:
@@ -185,7 +185,7 @@ def main():
         sys.exit(0)
     try:
         rs = magic(sys.argv[1], sys.argv[2:])
-    except BaseException, ex:
+    except ValueError as err:
         usage()
         sys.exit(10)
     if not rs:

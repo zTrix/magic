@@ -5,7 +5,7 @@ When you are [gnireenigne](http://en.wikipedia.org/wiki/Reverse_engineering) som
 
 When you are browsing source code of a giant project, have you ever complained, what are the values of those magic constants?
 
-Here you are, [magic](https://github.com/zTrix/magic) SOLVES these issues for you, like magic.
+Here you are, [magic](https://github.com/zTrix/magic) SOLVES these issues for you, just like magic.
 
 # Usage
 
@@ -22,7 +22,7 @@ examples here:
     # list all consts in open
     $ magic.py '' open
 
-    # list all consts value of 3
+    # list all consts with value of 1024
     $ magic.py 1024
 
 # Screenshot

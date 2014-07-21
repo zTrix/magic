@@ -1,0 +1,385 @@
+#include <sys/syscall.h>
+SYS__newselect               2.0
+SYS__sysctl                  2.0
+SYS_accept                   2.0           See notes on socketcall
+SYS_accept4                  2.6.28
+SYS_access                   1.0
+SYS_acct                     1.0
+SYS_add_key                  2.6.11
+SYS_adjtimex                 1.0
+SYS_alarm                    1.0
+SYS_alloc_hugepages          2.5.36        Removed in 2.5.44
+SYS_bdflush                  1.2           Deprecated (does nothing)
+SYS_bind                     2.0           See notes on socketcall
+SYS_brk                      1.0
+SYS_cacheflush               1.2           Not on x86
+SYS_capget                   2.2
+SYS_capset                   2.2
+SYS_chdir                    1.0
+SYS_chmod                    1.0
+SYS_chown                    2.2           See chown for
+SYS_chown32                  2.4
+SYS_chroot                   1.0
+SYS_clock_adjtime            2.6.39
+SYS_clock_getres             2.6
+SYS_clock_gettime            2.6
+SYS_clock_nanosleep          2.6
+SYS_clock_settime            2.6
+SYS_clone                    1.0
+SYS_close                    1.0
+SYS_connect                  2.0           See notes on socketcall
+SYS_creat                    1.0
+SYS_create_module                          Removed in 2.6
+SYS_delete_module            1.0
+SYS_dup                      1.0
+SYS_dup2                     1.0
+SYS_dup3                     2.6.27
+SYS_epoll_create             2.6
+SYS_epoll_create1            2.6.27
+SYS_epoll_ctl                2.6
+SYS_epoll_pwait              2.6.19
+SYS_epoll_wait               2.6
+SYS_eventfd                  2.6.22
+SYS_eventfd2                 2.6.27
+SYS_execve                   1.0
+SYS_exit                     1.0
+SYS_exit_group               2.6
+SYS_faccessat                2.6.16
+SYS_fadvise64                2.6
+SYS_fadvise64_64             2.6
+SYS_fallocate                2.6.23
+SYS_fanotify_init            2.6.37
+SYS_fanotify_mark            2.6.37
+SYS_fchdir                   1.0
+SYS_fchmod                   1.0
+SYS_fchmodat                 2.6.16
+SYS_fchown                   1.0
+SYS_fchown32                 2.4
+SYS_fchownat                 2.6.16
+SYS_fcntl                    1.0
+SYS_fcntl64                  2.4
+SYS_fdatasync                2.0
+SYS_fgetxattr                2.6; 2.4.18
+SYS_finit_module             3.8
+SYS_flistxattr               2.6; 2.4.18
+SYS_flock                    2.0
+SYS_fork                     1.0
+SYS_free_hugepages           2.5.36        Removed in 2.5.44
+SYS_fremovexattr             2.6; 2.4.18
+SYS_fsetxattr                2.6; 2.4.18
+SYS_fstat                    1.0
+SYS_fstat64                  2.4
+SYS_fstatat64                2.6.16
+SYS_fstatfs                  1.0
+SYS_fstatfs64                2.6
+SYS_fsync                    1.0           1.0
+SYS_ftruncate                1.0
+SYS_ftruncate64              2.4
+SYS_futex                    2.6
+SYS_futimesat                2.6.16
+SYS_get_kernel_syms                        Removed in 2.6
+SYS_get_mempolicy            2.6.6
+SYS_get_robust_list          2.6.17
+SYS_get_thread_area          2.6
+SYS_getcpu                   2.6.19
+SYS_getcwd                   2.2
+SYS_getdents                 2.0
+SYS_getdents64               2.4
+SYS_getegid                  1.0
+SYS_getegid32                2.4
+SYS_geteuid                  1.0
+SYS_geteuid32                2.4
+SYS_getgid                   1.0
+SYS_getgid32                 2.4
+SYS_getgroups                1.0
+SYS_getgroups32              2.4
+SYS_getitimer                1.0
+SYS_getpeername              2.0           See notes on socketcall
+SYS_getpagesize              2.0           Not on x86
+SYS_getpgid                  1.0
+SYS_getpgrp                  1.0
+SYS_getpid                   1.0
+SYS_getppid                  1.0
+SYS_getpriority              1.0
+SYS_getresgid                2.2
+SYS_getresgid32              2.4
+SYS_getresuid                2.2
+SYS_getresuid32              2.4
+SYS_getrlimit                1.0
+SYS_getrusage                1.0
+SYS_getsid                   2.0
+SYS_getsockname              2.0           See notes on socketcall
+SYS_getsockopt               2.0           See notes on socketcall
+SYS_gettid                   2.4.11
+SYS_gettimeofday             1.0
+SYS_getuid                   1.0
+SYS_getuid32                 2.4
+SYS_getxattr                 2.6; 2.4.18
+SYS_init_module              1.0
+SYS_inotify_add_watch        2.6.13
+SYS_inotify_init             2.6.13
+SYS_inotify_init1            2.6.27
+SYS_inotify_rm_watch         2.6.13
+SYS_io_cancel                2.6
+SYS_io_destroy               2.6
+SYS_io_getevents             2.6
+SYS_io_setup                 2.6
+SYS_io_submit                2.6
+SYS_ioctl                    1.0
+SYS_ioperm                   1.0
+SYS_iopl                     1.0
+SYS_ioprio_get               2.6.13
+SYS_ioprio_set               2.6.13
+SYS_ipc                      1.0
+SYS_kcmp                     3.5
+SYS_kern_features            3.7           Sparc64
+SYS_kexec_load               2.6.13
+SYS_keyctl                   2.6.11
+SYS_kill                     1.0
+SYS_lchown                   1.0           See chown for
+SYS_lchown32                 2.4
+SYS_lgetxattr                2.6; 2.4.18
+SYS_link                     1.0
+SYS_linkat                   2.6.16
+SYS_listen                   2.0           See notes on socketcall
+SYS_listxattr                2.6; 2.4.18
+SYS_llistxattr               2.6; 2.4.18
+SYS_lookup_dcookie           2.6
+SYS_lremovexattr             2.6; 2.4.18
+SYS_lseek                    1.0
+SYS_lsetxattr                2.6; 2.4.18
+SYS_lstat                    1.0
+SYS_lstat64                  2.4
+SYS_madvise                  2.4
+SYS_mbind                    2.6.6
+SYS_migrate_pages            2.6.16
+SYS_mincore                  2.4
+SYS_mkdir                    1.0
+SYS_mkdirat                  2.6.16
+SYS_mknod                    1.0
+SYS_mknodat                  2.6.16
+SYS_mlock                    2.0
+SYS_mlockall                 2.0
+SYS_mmap                     1.0
+SYS_mmap2                    2.4
+SYS_modify_ldt               1.0
+SYS_mount                    1.0
+SYS_move_pages               2.6.18
+SYS_mprotect                 1.0
+SYS_mq_getsetattr            2.6.6
+SYS_mq_notify                2.6.6
+SYS_mq_open                  2.6.6
+SYS_mq_timedreceive          2.6.6
+SYS_mq_timedsend             2.6.6
+SYS_mq_unlink                2.6.6
+SYS_mremap                   2.0
+SYS_msgctl                   2.0           See notes on ipc
+SYS_msgget                   2.0           See notes on ipc
+SYS_msgrcv                   2.0           See notes on ipc
+SYS_msgsnd                   2.0           See notes on ipc
+SYS_msync                    2.0
+SYS_munlock                  2.0
+SYS_munlockall               2.0
+SYS_munmap                   1.0
+SYS_name_to_handle_at        2.6.39
+SYS_nanosleep                2.0
+SYS_nfsservctl               2.2           Removed in 3.1
+SYS_nice                     1.0
+SYS_oldfstat                 1.0
+SYS_oldlstat                 1.0
+SYS_oldolduname              1.0
+SYS_oldstat                  1.0
+SYS_olduname                 1.0
+SYS_open                     1.0
+SYS_open_by_handle_at        2.6.39
+SYS_openat                   2.6.16
+SYS_pause                    1.0
+SYS_pciconfig_iobase         2.2.15; 2.4   Not on x86
+SYS_pciconfig_read           2.0.26; 2.2   Not on x86
+SYS_pciconfig_write          2.0.26; 2.2   Not on x86
+SYS_perf_event_open          2.6.31        Was called perf_counter_open()
+SYS_personality              1.2
+SYS_perfctr                  2.2           Sparc; removed in 2.6.34
+SYS_perfmonctl               2.4           ia64
+SYS_pipe                     1.0
+SYS_pipe2                    2.6.27
+SYS_pivot_root               2.4
+SYS_poll                     2.0.36; 2.2
+SYS_ppc_rtas                               PowerPC only
+SYS_ppoll                    2.6.16
+SYS_prctl                    2.2
+SYS_pread64                                Added as "pread" in 2.2; renamed "pread64" in 2.6
+SYS_preadv                   2.6.30
+SYS_prlimit                  2.6.36
+SYS_prlimit64                2.6.36
+SYS_process_vm_readv         3.2
+SYS_process_vm_writev        3.2
+SYS_pselect6                 2.6.16
+SYS_ptrace                   1.0
+SYS_pwrite64                               Added as "pwrite" in 2.2; renamed "pwrite64" in 2.6
+SYS_pwritev                  2.6.30
+SYS_query_module             2.2           Removed in 2.6
+SYS_quotactl                 1.0
+SYS_read                     1.0
+SYS_readahead                2.4.13
+SYS_readdir                  1.0
+SYS_readlink                 1.0
+SYS_readlinkat               2.6.16
+SYS_readv                    2.0
+SYS_reboot                   1.0
+SYS_recv                     2.0           See notes on socketcall
+SYS_recvfrom                 2.0           See notes on socketcall
+SYS_recvmsg                  2.0           See notes on socketcall
+SYS_recvmmsg                 2.6.33
+SYS_remap_file_pages         2.6           Deprecated since 3.16
+SYS_removexattr              2.6; 2.4.18
+SYS_rename                   1.0
+SYS_renameat                 2.6.16
+SYS_renameat2                3.15
+SYS_request_key              2.6.11
+SYS_restart_syscall          2.6
+SYS_rmdir                    1.0
+SYS_rt_sigaction             2.2
+SYS_rt_sigpending            2.2
+SYS_rt_sigprocmask           2.2
+SYS_rt_sigqueueinfo          2.2
+SYS_rt_sigreturn             2.2
+SYS_rt_sigsuspend            2.2
+SYS_rt_sigtimedwait          2.2
+SYS_rt_tgsigqueueinfo        2.6.31
+SYS_s390_runtime_instr       3.7           s390 only
+SYS_sched_get_priority_max   2.0
+SYS_sched_get_priority_min   2.0
+SYS_sched_getaffinity        2.6
+SYS_sched_getattr            3.14
+SYS_sched_getparam           2.0
+SYS_sched_getscheduler       2.0
+SYS_sched_rr_get_interval    2.0
+SYS_sched_setaffinity        2.6
+SYS_sched_setattr            3.14
+SYS_sched_setparam           2.0
+SYS_sched_setscheduler       2.0
+SYS_sched_yield              2.0
+SYS_select                   1.0
+SYS_semctl                   2.0           See notes on ipc
+SYS_semget                   2.0           See notes on ipc
+SYS_semop                    2.0           See notes on ipc
+SYS_semtimedop               2.6; 2.4.22
+SYS_send                     2.0           See notes on socketcall
+SYS_sendfile                 2.2
+SYS_sendfile64               2.6; 2.4.19
+SYS_sendmmsg                 3.0
+SYS_sendmsg                  2.0           See notes on socketcall
+SYS_sendto                   2.0           See notes on socketcall
+SYS_set_mempolicy            2.6.6
+SYS_set_robust_list          2.6.17
+SYS_set_thread_area          2.6
+SYS_set_tid_address          2.6
+SYS_setdomainname            1.0
+SYS_setfsgid                 1.2
+SYS_setfsgid32               2.4
+SYS_setfsuid                 1.2
+SYS_setfsuid32               2.4
+SYS_setgid                   1.0
+SYS_setgid32                 2.4
+SYS_setgroups                1.0
+SYS_setgroups32              2.4
+SYS_sethostname              1.0
+SYS_setitimer                1.0
+SYS_setns                    3.0
+SYS_setpgid                  1.0
+SYS_setpriority              1.0
+SYS_setregid                 1.0
+SYS_setregid32               2.4
+SYS_setresgid                2.2
+SYS_setresgid32              2.4
+SYS_setresuid                2.2
+SYS_setresuid32              2.4
+SYS_setreuid                 1.0
+SYS_setreuid32               2.4
+SYS_setrlimit                1.0
+SYS_setsid                   1.0
+SYS_setsockopt               2.0           See notes on socketcall
+SYS_settimeofday             1.0
+SYS_setuid                   1.0
+SYS_setuid32                 2.4
+SYS_setup                                  Removed in 2.2
+SYS_setxattr                 2.6; 2.4.18
+SYS_sgetmask                 1.0
+SYS_shmat                    2.0           See notes on ipc
+SYS_shmctl                   2.0           See notes on ipc
+SYS_shmdt                    2.0           See notes on ipc
+SYS_shmget                   2.0           See notes on ipc
+SYS_shutdown                 2.0           See notes on socketcall
+SYS_sigaction                1.0
+SYS_sigaltstack              2.2
+SYS_signal                   1.0
+SYS_signalfd                 2.6.22
+SYS_signalfd4                2.6.27
+SYS_sigpending               1.0
+SYS_sigprocmask              1.0
+SYS_sigreturn                1.0
+SYS_sigsuspend               1.0
+SYS_socket                   2.0           See notes on socketcall
+SYS_socketcall               1.0
+SYS_socketpair               2.0           See notes on socketcall
+SYS_splice                   2.6.17
+SYS_spu_create               2.6.16        PowerPC only
+SYS_spu_run                  2.6.16        PowerPC only
+SYS_ssetmask                 1.0
+SYS_stat                     1.0
+SYS_stat64                   2.4
+SYS_statfs                   1.0
+SYS_statfs64                 2.6
+SYS_stime                    1.0
+SYS_subpage_prot             2.6.25        PowerPC if CONFIG_PPC_64K_PAGES
+SYS_swapoff                  1.0
+SYS_swapon                   1.0
+SYS_symlink                  1.0
+SYS_symlinkat                2.6.16
+SYS_sync                     1.0
+SYS_sync_file_range          2.6.17
+SYS_sync_file_range2         2.6.22        Architecture-specific variant of sync_file_range
+SYS_syncfs                   2.6.39
+SYS_sysfs                    1.2
+SYS_sysinfo                  1.0
+SYS_syslog                   1.0
+SYS_tee                      2.6.17
+SYS_tgkill                   2.6
+SYS_time                     1.0
+SYS_timer_create             2.6
+SYS_timer_delete             2.6
+SYS_timer_getoverrun         2.6
+SYS_timer_gettime            2.6
+SYS_timer_settime            2.6
+SYS_timerfd_create           2.6.25
+SYS_timerfd_gettime          2.6.25
+SYS_timerfd_settime          2.6.25
+SYS_times                    1.0
+SYS_tkill                    2.6; 2.4.22
+SYS_truncate                 1.0
+SYS_truncate64               2.4
+SYS_ugetrlimit               2.4
+SYS_umask                    1.0
+SYS_umount                   1.0
+SYS_umount2                  2.2
+SYS_uname                    1.0
+SYS_unlink                   1.0
+SYS_unlinkat                 2.6.16
+SYS_unshare                  2.6.16
+SYS_uselib                   1.0
+SYS_ustat                    1.0
+SYS_utime                    1.0
+SYS_utimensat                2.6.22
+SYS_utimes                   2.2
+SYS_utrap_install            2.2           Sparc
+SYS_vfork                    2.2
+SYS_vhangup                  1.0
+SYS_vm86old                  1.0           Was "vm86"; renamed in 2.0.28/2.2
+SYS_vm86                     2.0.28; 2.2
+SYS_vmsplice                 2.6.17
+SYS_wait4                    1.0
+SYS_waitid                   2.6.10
+SYS_waitpid                  1.0
+SYS_write                    1.0
+SYS_writev                   2.0

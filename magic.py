@@ -94,6 +94,12 @@ magics = {
                 'type': TYPE_EQUAL,
             }
         }
+    },
+    'socket': {
+        'osx': {
+            'flags': [(1, 'SOCK_STREAM'), (2, 'SOCK_DGRAM'), (3, 'SOCK_RAW'), (5, 'SOCK_SEQPACKET'), (4, 'SOCK_RDM'), (1, 'PF_LOCAL'), (1, 'PF_UNIX'), (2, 'PF_INET'), (17, 'PF_ROUTE'), (29, 'PF_KEY'), (30, 'PF_INET6'), (32, 'PF_SYSTEM'), (27, 'PF_NDRV')],
+            'type': TYPE_EQUAL,
+        }
     }
 }
 

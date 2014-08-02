@@ -132,6 +132,12 @@ magics = {
             'flags': [(1, 'SOCK_STREAM'), (2, 'SOCK_DGRAM'), (3, 'SOCK_RAW'), (5, 'SOCK_SEQPACKET'), (4, 'SOCK_RDM'), (1, 'PF_LOCAL'), (1, 'PF_UNIX'), (2, 'PF_INET'), (17, 'PF_ROUTE'), (29, 'PF_KEY'), (30, 'PF_INET6'), (32, 'PF_SYSTEM'), (27, 'PF_NDRV')],
             'type': TYPE_EQUAL,
         }
+    },
+    'net': {
+        'ipproto': {
+            'flags': [(0, 'IPPROTO_IP'), (1, 'IPPROTO_ICMP'), (2, 'IPPROTO_IGMP'), (4, 'IPPROTO_IPIP'), (6, 'IPPROTO_TCP'), (8, 'IPPROTO_EGP'), (12, 'IPPROTO_PUP'), (17, 'IPPROTO_UDP'), (22, 'IPPROTO_IDP'), (29, 'IPPROTO_TP'), (33, 'IPPROTO_DCCP'), (41, 'IPPROTO_IPV6'), (46, 'IPPROTO_RSVP'), (47, 'IPPROTO_GRE'), (50, 'IPPROTO_ESP'), (51, 'IPPROTO_AH'), (92, 'IPPROTO_MTP'), (94, 'IPPROTO_BEETPH'), (98, 'IPPROTO_ENCAP'), (103, 'IPPROTO_PIM'), (108, 'IPPROTO_COMP'), (132, 'IPPROTO_SCTP'), (136, 'IPPROTO_UDPLITE'), (255, 'IPPROTO_RAW')],
+            'type': TYPE_EQUAL,
+        }
     }
 }
 

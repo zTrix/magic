@@ -71,9 +71,33 @@ magics = {
         'flags': [(0, 'nul'), (1, 'soh'), (2, 'stx'), (3, 'etx'), (4, 'eot'), (5, 'enq'), (6, 'ack'), (7, 'bel'), (8, 'bs'), (9, 'ht'), (10, 'nl'), (11, 'vt'), (12, 'np'), (13, 'carriage return'), (14, 'so'), (15, 'si'), (16, 'dle'), (17, 'dc1'), (18, 'dc2'), (19, 'dc3'), (20, 'dc4'), (21, 'nak'), (22, 'syn'), (23, 'etb'), (24, 'can'), (25, 'em'), (26, 'sub'), (27, 'esc'), (28, 'fs'), (29, 'gs'), (30, 'rs'), (31, 'us'), (32, 'space'), (127, 'delete')] + [(x, chr(x)) for x in range(33, 127)],
         'type': TYPE_EQUAL
     },
+    'seccomp': {
+        'filter_ret': {
+            'flags': [(0x0, 'SECCOMP_RET_KILL'), (0x30000, 'SECCOMP_RET_TRAP'), (0x50000, 'SECCOMP_RET_ERRNO'), (0x7ff00000, 'SECCOMP_RET_TRACE'), (0x7fff0000, 'SECCOMP_RET_ALLOW')],
+            'type': TYPE_EQUAL # TODO: complex return value here to handle
+        },
+        'filter_ret_mask': {
+            'flags': [(0xffff, 'SECCOMP_RET_DATA'), (0x7fff0000, 'SECCOMP_RET_ACTION')],
+            'type': TYPE_EQUAL
+        },
+        'filter_flags': {
+            'flags': [(1, 'SECCOMP_FILTER_FLAG_TSYNC')],
+            'type': TYPE_EQUAL
+        },
+        '': {
+            'flags': [(0, 'SECCOMP_SET_MODE_STRICT'), (1, 'SECCOMP_SET_MODE_FILTER')],
+            'type': TYPE_EQUAL
+        }
+    },
     'prctl': {
-        'flags': [(23, 'PR_CAPBSET_READ'),  (24, 'PR_CAPBSET_DROP'),  (36, 'PR_SET_CHILD_SUBREAPER'),  (37, 'PR_GET_CHILD_SUBREAPER'),  (4, 'PR_SET_DUMPABLE'),  (3, 'PR_GET_DUMPABLE'),  (20, 'PR_SET_ENDIAN'),  (19, 'PR_GET_ENDIAN'),  (10, 'PR_SET_FPEMU'),  (9, 'PR_GET_FPEMU'),  (12, 'PR_SET_FPEXC'),  (11, 'PR_GET_FPEXC'),  (8, 'PR_SET_KEEPCAPS'),  (7, 'PR_GET_KEEPCAPS'),  (15, 'PR_SET_NAME'),  (16, 'PR_GET_NAME'),  (38, 'PR_SET_NO_NEW_PRIVS'),  (39, 'PR_GET_NO_NEW_PRIVS'),  (1, 'PR_SET_PDEATHSIG'),  (2, 'PR_GET_PDEATHSIG'),  (1499557217, 'PR_SET_PTRACER'),  (22, 'PR_SET_SECCOMP'),  (21, 'PR_GET_SECCOMP'),  (28, 'PR_SET_SECUREBITS'),  (27, 'PR_GET_SECUREBITS'),  (40, 'PR_GET_TID_ADDRESS'),  (29, 'PR_SET_TIMERSLACK'),  (30, 'PR_GET_TIMERSLACK'),  (14, 'PR_SET_TIMING'),  (13, 'PR_GET_TIMING'),  (31, 'PR_TASK_PERF_EVENTS_DISABLE'),  (32, 'PR_TASK_PERF_EVENTS_ENABLE'),  (26, 'PR_SET_TSC'),  (25, 'PR_GET_TSC'),  (6, 'PR_SET_UNALIGN'),  (5, 'PR_GET_UNALIGN'),  (33, 'PR_MCE_KILL'),  (34, 'PR_MCE_KILL_GET'),  (35, 'PR_SET_MM')],
-        'type': TYPE_EQUAL
+        '': {
+            'flags': [(23, 'PR_CAPBSET_READ'),  (24, 'PR_CAPBSET_DROP'),  (36, 'PR_SET_CHILD_SUBREAPER'),  (37, 'PR_GET_CHILD_SUBREAPER'),  (4, 'PR_SET_DUMPABLE'),  (3, 'PR_GET_DUMPABLE'),  (20, 'PR_SET_ENDIAN'),  (19, 'PR_GET_ENDIAN'),  (10, 'PR_SET_FPEMU'),  (9, 'PR_GET_FPEMU'),  (12, 'PR_SET_FPEXC'),  (11, 'PR_GET_FPEXC'),  (8, 'PR_SET_KEEPCAPS'),  (7, 'PR_GET_KEEPCAPS'),  (15, 'PR_SET_NAME'),  (16, 'PR_GET_NAME'),  (38, 'PR_SET_NO_NEW_PRIVS'),  (39, 'PR_GET_NO_NEW_PRIVS'),  (1, 'PR_SET_PDEATHSIG'),  (2, 'PR_GET_PDEATHSIG'),  (1499557217, 'PR_SET_PTRACER'),  (22, 'PR_SET_SECCOMP'),  (21, 'PR_GET_SECCOMP'),  (28, 'PR_SET_SECUREBITS'),  (27, 'PR_GET_SECUREBITS'),  (40, 'PR_GET_TID_ADDRESS'),  (29, 'PR_SET_TIMERSLACK'),  (30, 'PR_GET_TIMERSLACK'),  (14, 'PR_SET_TIMING'),  (13, 'PR_GET_TIMING'),  (31, 'PR_TASK_PERF_EVENTS_DISABLE'),  (32, 'PR_TASK_PERF_EVENTS_ENABLE'),  (26, 'PR_SET_TSC'),  (25, 'PR_GET_TSC'),  (6, 'PR_SET_UNALIGN'),  (5, 'PR_GET_UNALIGN'),  (33, 'PR_MCE_KILL'),  (34, 'PR_MCE_KILL_GET'),  (35, 'PR_SET_MM')],
+            'type': TYPE_EQUAL
+        },
+        'pr_set_seccomp': {
+            'flags': [(1, 'SECCOMP_MODE_STRICT'), (2, 'SECCOMP_MODE_FILTER')],
+            'type': TYPE_EQUAL
+        }
     },
     'ptrace': {
         'flags': [(0, 'PTRACE_TRACEME'), (1, 'PTRACE_PEEKTEXT'), (2, 'PTRACE_PEEKDATA'), (3, 'PTRACE_PEEKUSER'), (4, 'PTRACE_POKETEXT'), (5, 'PTRACE_POKEDATA'), (6, 'PTRACE_POKEUSER'), (12, 'PTRACE_GETREGS'), (14, 'PTRACE_GETFPREGS'), (16900, 'PTRACE_GETREGSET'), (16898, 'PTRACE_GETSIGINFO'), (13, 'PTRACE_SETREGS'), (15, 'PTRACE_SETFPREGS'), (16901, 'PTRACE_SETREGSET'), (16899, 'PTRACE_SETSIGINFO'), (16896, 'PTRACE_SETOPTIONS'), (1048576, 'PTRACE_O_EXITKILL'), (8, 'PTRACE_O_TRACECLONE'), (16, 'PTRACE_O_TRACEEXEC'), (64, 'PTRACE_O_TRACEEXIT'), (2, 'PTRACE_O_TRACEFORK'), (1, 'PTRACE_O_TRACESYSGOOD'), (4, 'PTRACE_O_TRACEVFORK'), (32, 'PTRACE_O_TRACEVFORKDONE'), (16897, 'PTRACE_GETEVENTMSG'), (7, 'PTRACE_CONT'), (24, 'PTRACE_SYSCALL'), (9, 'PTRACE_SINGLESTEP'), (16904, 'PTRACE_LISTEN'), (8, 'PTRACE_KILL'), (16903, 'PTRACE_INTERRUPT'), (16, 'PTRACE_ATTACH'), (16902, 'PTRACE_SEIZE'), (17, 'PTRACE_DETACH'), (31, 'PTRACE_SYSEMU'), (32, 'PTRACE_SYSEMU_SINGLESTEP')],

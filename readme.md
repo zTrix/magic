@@ -31,7 +31,7 @@ examples here:
 
 # installation
 
- - python2
+ - python2/3
  - termcolor (optional, for color output support) `$ pip install termcolor`
 
 # Call for PULL Request!

@@ -1,5 +1,5 @@
-#!/usr/bin/env python2
-#-*- coding:utf-8 -*-
+#!/usr/bin/env python
+from __future__ import print_function
 
 import os, sys, getopt
 import termios
@@ -67,6 +67,12 @@ py_magic = {
 }
 
 magics = {
+    'setvbuf': {
+        'mode': {
+            'flags': [(0, '_IOFBF'), (1, '_IOLBF'), (2, '_IONBF')],
+            'type': TYPE_EQUAL,
+        },
+    },
     'd_type': {
         'flags': [(0, 'DT_UNKNOWN'), (8, 'DT_REG'), (10, 'DT_LNK'), (6, 'DT_BLK'), (2, 'DT_CHR'), (1, 'DT_FIFO')],
         'type': TYPE_EQUAL,
@@ -179,7 +185,7 @@ def magic(query, hints, match = FIND):
     ret = {}
 
     def match_all(keyword):
-        if isinstance(hints, basestring):
+        if isinstance(hints, str):
             return match(keyword, hints)
         for hint in hints:
             if not match(keyword, hint):
@@ -189,7 +195,7 @@ def magic(query, hints, match = FIND):
     name = None
     number = None
 
-    if isinstance(query, basestring):
+    if isinstance(query, str):
         if query.startswith('0x'):
             try:
                 number = int(query, 16)
@@ -197,7 +203,7 @@ def magic(query, hints, match = FIND):
                 raise ValueError('bad magic number in hex')
         elif query.startswith('0b'):
             try:
-                number = int(sys.argv[1], 2)
+                number = int(query, 2)
             except:
                 raise ValueError('bad magic number in bin')
         else:
@@ -227,7 +233,7 @@ def magic(query, hints, match = FIND):
                         bits[f] = value
 
             if not obj['flags']: return
-            if isinstance(obj['flags'][0], basestring):
+            if isinstance(obj['flags'][0], str):
                 for f in obj['flags']:
                     try:
                         value = getattr(modules[module], f)
@@ -257,7 +263,7 @@ def magic(query, hints, match = FIND):
     return ret
 
 def usage():
-    print """
+    print("""
 usage:
     $ magic.py (number|name) [keyword | [keyword] ...]
 
@@ -269,7 +275,7 @@ examples:
     $ magic.py creat open
     # list all consts in open
     $ magic.py '' open
-"""
+""")
     
 def main():
     number = 0
@@ -282,7 +288,7 @@ def main():
         usage()
         sys.exit(10)
     if not rs:
-        print '0ops, magic number not found :('
+        print('0ops, magic number not found :(')
         return 0
     for k in rs:
         w = rs[k]

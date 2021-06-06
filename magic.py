@@ -67,6 +67,12 @@ py_magic = {
 }
 
 magics = {
+    'duktape': {
+        'compile': {
+            'flags': [((1 << 3), 'DUK_COMPILE_EVAL'), ((1 << 4), 'DUK_COMPILE_FUNCTION'), ((1 << 5) , 'DUK_COMPILE_STRICT'), ((1 << 6), 'DUK_COMPILE_SHEBANG'), ((1 << 7), 'DUK_COMPILE_SAFE'), ((1 << 8), 'DUK_COMPILE_NORESULT'), ((1 << 9), 'DUK_COMPILE_NOSOURCE'), ((1 << 10), 'DUK_COMPILE_STRLEN'), ((1 << 11), 'DUK_COMPILE_NOFILENAME'), ((1 << 12), 'DUK_COMPILE_FUNCEXPR'),],
+            'type': TYPE_BITOR,
+        },
+    },
     'setvbuf': {
         'mode': {
             'flags': [(0, '_IOFBF'), (1, '_IOLBF'), (2, '_IONBF')],

@@ -225,9 +225,12 @@ def magic(query, hints, match = FIND):
 
     def visit(obj, path):
         if 'flags' in obj and 'type' in obj:
-            if not match_all(path): return
+
             bits = {}
             def get_one(f, value, tp):
+                if not match_all(path + '.' + f):
+                    return
+
                 if name is not None:
                     if match(f, name):
                         bits[f] = value
@@ -238,8 +241,10 @@ def magic(query, hints, match = FIND):
                     if value & number:
                         bits[f] = value
 
-            if not obj['flags']: return
-            if isinstance(obj['flags'][0], str):
+            if not obj['flags']:
+                return
+
+            if isinstance(obj['flags'][0], str):    # is py_magic
                 for f in obj['flags']:
                     try:
                         value = getattr(modules[module], f)

@@ -24,6 +24,16 @@ py_magic = {
             'type': TYPE_EQUAL
         }
     },
+    'socket': {
+        'family': {
+            'flags': 'AF_ALG AF_APPLETALK AF_ASH AF_ATMPVC AF_ATMSVC AF_AX25 AF_BLUETOOTH AF_BRIDGE AF_CAN AF_DECnet AF_ECONET AF_INET AF_INET6 AF_IPX AF_IRDA AF_KEY AF_LLC AF_NETBEUI AF_NETLINK AF_NETROM AF_PACKET AF_PPPOX AF_QIPCRTR AF_RDS AF_ROSE AF_ROUTE AF_SECURITY AF_SNA AF_TIPC AF_UNIX AF_UNSPEC AF_VSOCK AF_WANPIPE AF_X25'.split(),
+            'type': TYPE_EQUAL,
+        },
+        'type': {
+            'flags': 'SOCK_CLOEXEC SOCK_DGRAM SOCK_NONBLOCK SOCK_RAW SOCK_RDM SOCK_SEQPACKET SOCK_STREAM'.split(),
+            'type': TYPE_BITOR,
+        },
+    },
     'termios': {
         'iflags': {
             'flags': 'IGNBRK BRKINT IGNPAR PARMRK INPCK ISTRIP INLCR IGNCR ICRNL IUCLC IXON IXANY IXOFF IMAXBEL IUTF8'.split(' '),

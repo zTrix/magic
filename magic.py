@@ -77,6 +77,12 @@ py_magic = {
 }
 
 magics = {
+    'sysconf': {
+        'name': {
+            'flags': [(0, '_SC_ARG_MAX') , (1, '_SC_CHILD_MAX') , (180, '_SC_HOST_NAME_MAX') , (71, '_SC_LOGIN_NAME_MAX') , (3  ,   '_SC_NGROUPS_MAX') , (2  ,   '_SC_CLK_TCK') , (4  ,   '_SC_OPEN_MAX') , (30 ,   '_SC_PAGESIZE') , (30 ,   '_SC_PAGE_SIZE') , (44 ,   '_SC_RE_DUP_MAX') , (5  ,   '_SC_STREAM_MAX') , (173,   '_SC_SYMLOOP_MAX') , (72 ,   '_SC_TTY_NAME_MAX') , (6  ,   '_SC_TZNAME_MAX') , (29 ,   '_SC_VERSION') , (36 ,   '_SC_BC_BASE_MAX') , (37 ,   '_SC_BC_DIM_MAX') , (38 ,   '_SC_BC_SCALE_MAX') , (39 ,   '_SC_BC_STRING_MAX') , (40 ,   '_SC_COLL_WEIGHTS_MAX') , (42 ,   '_SC_EXPR_NEST_MAX') , (43 ,   '_SC_LINE_MAX') , (44 ,   '_SC_RE_DUP_MAX') , (46 ,   '_SC_2_VERSION') , (48 ,   '_SC_2_C_DEV') , (49 ,   '_SC_2_FORT_DEV') , (50 ,   '_SC_2_FORT_RUN') , (52 ,   '_SC_2_LOCALEDEF') , (51 ,   '_SC_2_SW_DEV') , (85 ,   '_SC_PHYS_PAGES') , (86 ,   '_SC_AVPHYS_PAGES') , (83 ,   '_SC_NPROCESSORS_CONF') , (84 ,   '_SC_NPROCESSORS_ONLN')],
+            'type': TYPE_EQUAL,
+        },
+    },
     'duktape': {
         'compile': {
             'flags': [((1 << 3), 'DUK_COMPILE_EVAL'), ((1 << 4), 'DUK_COMPILE_FUNCTION'), ((1 << 5) , 'DUK_COMPILE_STRICT'), ((1 << 6), 'DUK_COMPILE_SHEBANG'), ((1 << 7), 'DUK_COMPILE_SAFE'), ((1 << 8), 'DUK_COMPILE_NORESULT'), ((1 << 9), 'DUK_COMPILE_NOSOURCE'), ((1 << 10), 'DUK_COMPILE_STRLEN'), ((1 << 11), 'DUK_COMPILE_NOFILENAME'), ((1 << 12), 'DUK_COMPILE_FUNCEXPR'),],

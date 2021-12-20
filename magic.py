@@ -208,7 +208,19 @@ magics = {
             'flags': [(0, 'GLOB_SUCCESS'), (1, 'GLOB_NOSPACE'), (2, 'GLOB_ABORTED'), (3, 'GLOB_NOMATCH')],
             'type': TYPE_EQUAL,
         }
-    }
+    },
+    'access': {
+        'mode': {
+            'flags': [(0, 'F_OK'), (1, 'X_OK'), (2, 'W_OK'), (4, 'R_OK')],
+            'type': TYPE_BITOR,
+        }
+    },
+    'chmod': {
+        'mode': {
+            'flags': [(2048, 'S_ISUID'), (1024, 'S_ISGID'), (512, 'S_ISVTX'), (256, 'S_IRUSR'), (128, 'S_IWUSR'), (64, 'S_IXUSR'), (32, 'S_IRGRP'), (16, 'S_IWGRP'), (8, 'S_IXGRP'), (4, 'S_IROTH'), (2, 'S_IWOTH'), (1, 'S_IXOTH')],
+            'type': TYPE_BITOR,
+        }
+    },
 }
 
 def FIND(key, hint): return key.lower().find(hint.lower()) > -1
